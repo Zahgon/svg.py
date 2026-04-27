@@ -56,59 +56,13 @@ class Element:
 
     @classmethod
     def _as_str(cls, val: Any, key: str | None = None) -> str:
-        if val is None:
-            return ""
-        if isinstance(val, Element):
-            return str(val)
-        if isinstance(val, Enum):
-            return val.value
-        if isinstance(val, bool):
-            return str(val).lower()
-        if isinstance(val, (list, tuple)):
-            sep = " "
-            # Some attributes of some animation-related elements
-            # use semicolon instead of space to separate list elements.
-            if key in _SEMICOLON_ATTRS:
-                if set(cls.__bases__) & _SEMICOLON_TYPES:
-                    sep = ";"
-            return sep.join(cls._as_str(v) for v in val)
-        if isinstance(val, timedelta):
-            return to_clock_value(val)
-        if isinstance(val, datetime):
-            return to_wallclock_sync_value(val)
-        return str(val)
+        pass
 
     def as_dict(self) -> dict[str, str]:
-        result = {}
-        for key, val in vars(self).items():
-            if val is None:
-                continue
-            if key in ("elements", "text", "data", "extra"):
-                continue
-            key = key.rstrip("_")
-            key = key.replace("__", ":")
-            key = key.replace("_", "-")
-            result[key] = self._as_str(val, key=key)
-        return result
+        pass
 
     def as_str(self) -> str:
-        props = " ".join(f'{k}="{v}"' for k, v in self.as_dict().items())
-        if self.data:
-            if props:
-                props += " "
-            props += " ".join(f'data-{k}="{v}"' for k, v in self.data.items())
-        if self.extra:
-            if props:
-                props += " "
-            props += " ".join(f'{k}="{v}"' for k, v in self.extra.items())
-        if props:
-            props = " " + props
-        if self.text:
-            return f"<{self.element_name}{props}>{self.text}</{self.element_name}>"
-        if self.elements:
-            content = "".join(self._as_str(e) for e in self.elements)
-            return f"<{self.element_name}{props}>{content}</{self.element_name}>"
-        return f"<{self.element_name}{props}/>"
+        pass
 
     def __str__(self) -> str:
         return self.as_str()
@@ -116,7 +70,7 @@ class Element:
     def _repr_svg_(self) -> str:
         """Used by Jupyter Notebook for rich display.
         """
-        return self.as_str()
+        pass
 
 
 @dataclass

@@ -209,35 +209,11 @@ def to_clock_value(delta: timedelta) -> str:
     https://developer.mozilla.org/en-US/docs/Web/SVG/Guides/Content_type#clock-value
     https://svgwg.org/specs/animations/#ClockValueSyntax
     """
-    seconds = delta.total_seconds()
-
-    sign = ""
-    if seconds < 0:
-        sign = "-"
-        seconds = abs(seconds)
-
-    partial_seconds = seconds - math.floor(seconds)
-    seconds = int(seconds)
-    fraction = ""
-    if partial_seconds > 0:
-        fraction = f"{partial_seconds:.6f}".strip("0")
-
-    # Format as Timecount-val.
-    if abs(seconds) < 60:
-        # The "s" suffix is optional but it's good for readability:
-        # in JS, time is represented in miliseconds, so
-        # just a number without a suffix may confuse JS engineers.
-        return f"{sign}{seconds}{fraction}s"
-
-    # Format as Full-clock-val.
-    minutes, full_seconds = divmod(seconds, 60)
-    hours, minutes = divmod(minutes, 60)
-    return f"{sign}{hours}:{minutes:02}:{full_seconds:02}{fraction}"
+    pass
 
 
 def to_wallclock_sync_value(time: datetime) -> str:
-    iso_time = time.isoformat(" ")
-    return f"wallclock({iso_time})"
+    pass
 
 
 @dataclass
